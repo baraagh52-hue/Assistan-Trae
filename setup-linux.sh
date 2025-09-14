@@ -415,7 +415,7 @@ main() {
     print_success "Installation completed successfully!"
     echo
     print_status "Next steps:"
-    echo "1. Configure your API keys in ~/.personal-ai-assistant/config/appsettings.json"
+    echo "1. Configure your API keys in ./appsettings.json"
     echo "2. Run the assistant with: personal-ai-assistant"
     echo "3. Or start the systemd service: systemctl --user start personal-ai-assistant"
     echo

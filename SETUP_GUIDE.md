@@ -128,7 +128,7 @@ The script will automatically:
 
 #### Step 3: Configure API Keys
 ```bash
-nano ~/.personal-ai-assistant/config/appsettings.json
+nano appsettings.json
 ```
 
 #### Step 4: Start the Assistant

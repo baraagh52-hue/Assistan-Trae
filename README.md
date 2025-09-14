@@ -87,7 +87,7 @@ A comprehensive Windows desktop application that provides voice-activated AI ass
    ```
 3. Configure your API keys:
    ```bash
-   nano ~/.personal-ai-assistant/config/appsettings.json
+   nano appsettings.json
    ```
 4. Start the assistant:
    ```bash
@@ -106,7 +106,7 @@ A comprehensive Windows desktop application that provides voice-activated AI ass
    ```
 3. Configure via mounted config volume:
    ```bash
-   nano ./config/appsettings.json
+   nano ./appsettings.json
    docker-compose restart
    ```
 
