@@ -1,0 +1,432 @@
+<Window x:Class="PersonalAiAssistant.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Personal AI Assistant" Height="700" Width="1200"
+        MinHeight="600" MinWidth="900"
+        WindowStartupLocation="CenterScreen"
+        Background="#FF1E1E1E">
+    
+    <Window.Resources>
+        <!-- Modern Dark Theme Styles -->
+        <Style x:Key="ModernButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#FF2D2D30"/>
+            <Setter Property="Foreground" Value="#FFFFFFFF"/>
+            <Setter Property="BorderBrush" Value="#FF3F3F46"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF3E3E42"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#FF1C1C1C"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="StatusIndicatorStyle" TargetType="Ellipse">
+            <Setter Property="Width" Value="12"/>
+            <Setter Property="Height" Value="12"/>
+            <Setter Property="Margin" Value="5,0"/>
+        </Style>
+
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="#FF2D2D30"/>
+            <Setter Property="BorderBrush" Value="#FF3F3F46"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="16"/>
+            <Setter Property="Margin" Value="8"/>
+        </Style>
+
+        <Style x:Key="HeaderTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#FFFFFFFF"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+        </Style>
+
+        <Style x:Key="BodyTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#FFE0E0E0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <Style x:Key="TabButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#FFB0B0B0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="20,12"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#FFFFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header with Navigation -->
+        <Border Grid.Row="0" Background="#FF252526" BorderBrush="#FF3F3F46" BorderThickness="0,0,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Navigation Tabs -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <Button x:Name="DashboardTab" Content="Dashboard" Style="{StaticResource TabButtonStyle}" 
+                            Click="DashboardTab_Click" Foreground="#FF0078D4"/>
+                    <Button x:Name="SettingsTab" Content="Settings" Style="{StaticResource TabButtonStyle}" 
+                            Click="SettingsTab_Click"/>
+                </StackPanel>
+
+                <!-- System Status -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="20,0">
+                    <TextBlock Text="System Status:" Foreground="#FFE0E0E0" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <Ellipse x:Name="SystemStatusIndicator" Style="{StaticResource StatusIndicatorStyle}" Fill="#FF28A745"/>
+                    <TextBlock x:Name="SystemStatusText" Text="Ready" Foreground="#FFE0E0E0" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Main Content Area -->
+        <Grid Grid.Row="1">
+            <!-- Dashboard Page -->
+            <ScrollViewer x:Name="DashboardPage" Visibility="Visible" VerticalScrollBarVisibility="Auto">
+                <Grid Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Voice Status Section -->
+                    <Border Grid.Row="0" Style="{StaticResource CardStyle}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Wake Word Status -->
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Wake Word Detection" Style="{StaticResource HeaderTextStyle}"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                    <Ellipse x:Name="WakeWordStatusIndicator" Style="{StaticResource StatusIndicatorStyle}" Fill="#FF6C757D"/>
+                                    <TextBlock x:Name="WakeWordStatusText" Text="Stopped" Style="{StaticResource BodyTextStyle}"/>
+                                </StackPanel>
+                                <Button x:Name="ToggleWakeWordBtn" Content="Start Listening" Style="{StaticResource ModernButtonStyle}" 
+                                        Click="ToggleWakeWord_Click" Width="120" HorizontalAlignment="Left"/>
+                            </StackPanel>
+
+                            <!-- STT Status -->
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="Speech Recognition" Style="{StaticResource HeaderTextStyle}"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                    <Ellipse x:Name="STTStatusIndicator" Style="{StaticResource StatusIndicatorStyle}" Fill="#FF6C757D"/>
+                                    <TextBlock x:Name="STTStatusText" Text="Stopped" Style="{StaticResource BodyTextStyle}"/>
+                                </StackPanel>
+                                <TextBlock x:Name="LastTranscriptionText" Text="No transcription yet" Style="{StaticResource BodyTextStyle}" 
+                                           FontStyle="Italic" Opacity="0.8"/>
+                            </StackPanel>
+
+                            <!-- TTS Status -->
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="Text-to-Speech" Style="{StaticResource HeaderTextStyle}"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                    <Ellipse x:Name="TTSStatusIndicator" Style="{StaticResource StatusIndicatorStyle}" Fill="#FF6C757D"/>
+                                    <TextBlock x:Name="TTSStatusText" Text="Disconnected" Style="{StaticResource BodyTextStyle}"/>
+                                </StackPanel>
+                                <Button x:Name="TestTTSBtn" Content="Test Voice" Style="{StaticResource ModernButtonStyle}" 
+                                        Click="TestTTS_Click" Width="120" HorizontalAlignment="Left"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- Quick Actions -->
+                    <Border Grid.Row="1" Style="{StaticResource CardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="Quick Actions" Style="{StaticResource HeaderTextStyle}"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="StartSystemBtn" Content="Start System" Style="{StaticResource ModernButtonStyle}" 
+                                        Click="StartSystem_Click" Margin="0,0,12,0"/>
+                                <Button x:Name="StopSystemBtn" Content="Stop System" Style="{StaticResource ModernButtonStyle}" 
+                                        Click="StopSystem_Click" Margin="0,0,12,0"/>
+                                <Button x:Name="RefreshTodosBtn" Content="Refresh Todos" Style="{StaticResource ModernButtonStyle}" 
+                                        Click="RefreshTodos_Click" Margin="0,0,12,0"/>
+                                <Button x:Name="CheckPrayerTimesBtn" Content="Check Prayer Times" Style="{StaticResource ModernButtonStyle}" 
+                                        Click="CheckPrayerTimes_Click"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Information Panels -->
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Recent Activity -->
+                        <Border Grid.Column="0" Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Recent Activity" Style="{StaticResource HeaderTextStyle}"/>
+                                <ScrollViewer Height="200" VerticalScrollBarVisibility="Auto">
+                                    <TextBlock x:Name="ActivityLogText" Style="{StaticResource BodyTextStyle}" 
+                                               Text="No recent activity" FontFamily="Consolas"/>
+                                </ScrollViewer>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- System Information -->
+                        <Border Grid.Column="1" Style="{StaticResource CardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="System Information" Style="{StaticResource HeaderTextStyle}"/>
+                                <StackPanel>
+                                    <TextBlock Style="{StaticResource BodyTextStyle}">
+                                        <Run Text="Microsoft Todo: "/>
+                                        <Run x:Name="TodoStatusText" Text="Not connected" Foreground="#FFDC3545"/>
+                                    </TextBlock>
+                                    <TextBlock Style="{StaticResource BodyTextStyle}" Margin="0,4,0,0">
+                                        <Run Text="Prayer Times: "/>
+                                        <Run x:Name="PrayerStatusText" Text="Not configured" Foreground="#FFDC3545"/>
+                                    </TextBlock>
+                                    <TextBlock Style="{StaticResource BodyTextStyle}" Margin="0,4,0,0">
+                                        <Run Text="ActivityWatch: "/>
+                                        <Run x:Name="ActivityWatchStatusText" Text="Not connected" Foreground="#FFDC3545"/>
+                                    </TextBlock>
+                                    <TextBlock Style="{StaticResource BodyTextStyle}" Margin="0,4,0,0">
+                                        <Run Text="LLM Service: "/>
+                                        <Run x:Name="LLMStatusText" Text="Not configured" Foreground="#FFDC3545"/>
+                                    </TextBlock>
+                                    <TextBlock Style="{StaticResource BodyTextStyle}" Margin="0,8,0,0">
+                                        <Run Text="Next Prayer: "/>
+                                        <Run x:Name="NextPrayerText" Text="Unknown"/>
+                                    </TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </ScrollViewer>
+
+            <!-- Settings Page -->
+            <ScrollViewer x:Name="SettingsPage" Visibility="Collapsed" VerticalScrollBarVisibility="Auto">
+                <Grid Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Voice Settings -->
+                    <Border Grid.Row="0" Style="{StaticResource CardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="Voice Settings" Style="{StaticResource HeaderTextStyle}"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Wake Word:" Style="{StaticResource BodyTextStyle}" 
+                                           VerticalAlignment="Center" Margin="0,0,12,8"/>
+                                <TextBox x:Name="WakeWordTextBox" Grid.Row="0" Grid.Column="1" Text="hey assistant" 
+                                         Background="#FF3C3C3C" Foreground="#FFFFFFFF" BorderBrush="#FF3F3F46" 
+                                         Padding="8" Margin="0,0,0,8"/>
+
+                                <TextBlock Grid.Row="0" Grid.Column="2" Text="Voice:" Style="{StaticResource BodyTextStyle}" 
+                                           VerticalAlignment="Center" Margin="12,0,12,8"/>
+                                <ComboBox x:Name="VoiceComboBox" Grid.Row="0" Grid.Column="3" 
+                                          Background="#FF3C3C3C" Foreground="#FFFFFFFF" BorderBrush="#FF3F3F46" 
+                                          Padding="8" Margin="0,0,0,8"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Confidence:" Style="{StaticResource BodyTextStyle}" 
+                                           VerticalAlignment="Center" Margin="0,0,12,8"/>
+                                <Slider x:Name="ConfidenceSlider" Grid.Row="1" Grid.Column="1" Minimum="0.1" Maximum="1.0" 
+                                        Value="0.7" TickFrequency="0.1" IsSnapToTickEnabled="True" Margin="0,0,0,8"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="2" Text="Volume:" Style="{StaticResource BodyTextStyle}" 
+                                           VerticalAlignment="Center" Margin="12,0,12,8"/>
+                                <Slider x:Name="VolumeSlider" Grid.Row="1" Grid.Column="3" Minimum="0" Maximum="100" 
+                                        Value="80" TickFrequency="10" IsSnapToTickEnabled="True" Margin="0,0,0,8"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- LLM Settings -->
+                    <Border Grid.Row="1" Style="{StaticResource CardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="LLM Settings" Style="{StaticResource HeaderTextStyle}"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Provider:" Style="{StaticResource BodyTextStyle}" 
+                                           VerticalAlignment="Center" Margin="0,0,12,8"/>
+                                <ComboBox x:Name="LLMProviderComboBox" Grid.Row="0" Grid.Column="1" 
+                                          Background="#FF3C3C3C" Foreground="#FFFFFFFF" BorderBrush="#FF3F3F46" 
+                                          Padding="8" Margin="0,0,0,8"/>
+
+                                <TextBlock Grid.Row="0" Grid.Column="2" Text="Model:" Style="{StaticResource BodyTextStyle}" 
+                                           VerticalAlignment="Center" Margin="12,0,12,8"/>
+                                <ComboBox x:Name="LLMModelComboBox" Grid.Row="0" Grid.Column="3" 
+                                          Background="#FF3C3C3C" Foreground="#FFFFFFFF" BorderBrush="#FF3F3F46" 
+                                          Padding="8" Margin="0,0,0,8"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="API Key:" Style="{StaticResource BodyTextStyle}" 
+                                           VerticalAlignment="Center" Margin="0,0,12,8"/>
+                                <PasswordBox x:Name="APIKeyPasswordBox" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" 
+                                             Background="#FF3C3C3C" Foreground="#FFFFFFFF" BorderBrush="#FF3F3F46" 
+                                             Padding="8" Margin="0,0,0,8"/>
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Base URL:" Style="{StaticResource BodyTextStyle}" 
+                                           VerticalAlignment="Center" Margin="0,0,12,8"/>
+                                <TextBox x:Name="BaseURLTextBox" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" 
+                                         Background="#FF3C3C3C" Foreground="#FFFFFFFF" BorderBrush="#FF3F3F46" 
+                                         Padding="8" Margin="0,0,0,8"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Microsoft Settings -->
+                    <Border Grid.Row="2" Style="{StaticResource CardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="Microsoft Integration" Style="{StaticResource HeaderTextStyle}"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Client ID:" Style="{StaticResource BodyTextStyle}" 
+                                           VerticalAlignment="Center" Margin="0,0,12,8"/>
+                                <TextBox x:Name="ClientIDTextBox" Grid.Row="0" Grid.Column="1" 
+                                         Background="#FF3C3C3C" Foreground="#FFFFFFFF" BorderBrush="#FF3F3F46" 
+                                         Padding="8" Margin="0,0,12,8"/>
+                                <Button x:Name="AuthenticateBtn" Grid.Row="0" Grid.Column="2" Content="Authenticate" 
+                                        Style="{StaticResource ModernButtonStyle}" Click="Authenticate_Click" Margin="0,0,0,8"/>
+
+                                <CheckBox x:Name="EnableTodoCheckBox" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
+                                          Content="Enable Microsoft To-Do Integration" Foreground="#FFFFFFFF" 
+                                          Margin="0,0,0,8" IsChecked="True"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Prayer Times Settings -->
+                    <Border Grid.Row="3" Style="{StaticResource CardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="Prayer Times" Style="{StaticResource HeaderTextStyle}"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="City:" Style="{StaticResource BodyTextStyle}" 
+                                           VerticalAlignment="Center" Margin="0,0,12,8"/>
+                                <TextBox x:Name="CityTextBox" Grid.Row="0" Grid.Column="1" Text="Mecca" 
+                                         Background="#FF3C3C3C" Foreground="#FFFFFFFF" BorderBrush="#FF3F3F46" 
+                                         Padding="8" Margin="0,0,0,8"/>
+
+                                <TextBlock Grid.Row="0" Grid.Column="2" Text="Country:" Style="{StaticResource BodyTextStyle}" 
+                                           VerticalAlignment="Center" Margin="12,0,12,8"/>
+                                <TextBox x:Name="CountryTextBox" Grid.Row="0" Grid.Column="3" Text="Saudi Arabia" 
+                                         Background="#FF3C3C3C" Foreground="#FFFFFFFF" BorderBrush="#FF3F3F46" 
+                                         Padding="8" Margin="0,0,0,8"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Method:" Style="{StaticResource BodyTextStyle}" 
+                                           VerticalAlignment="Center" Margin="0,0,12,8"/>
+                                <ComboBox x:Name="CalculationMethodComboBox" Grid.Row="1" Grid.Column="1" 
+                                          Background="#FF3C3C3C" Foreground="#FFFFFFFF" BorderBrush="#FF3F3F46" 
+                                          Padding="8" Margin="0,0,0,8"/>
+
+                                <CheckBox x:Name="EnablePrayerNotificationsCheckBox" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" 
+                                          Content="Enable Prayer Notifications" Foreground="#FFFFFFFF" 
+                                          Margin="12,0,0,8" IsChecked="True"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Save Settings -->
+                    <Border Grid.Row="4" Style="{StaticResource CardStyle}">
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="SaveSettingsBtn" Content="Save Settings" Style="{StaticResource ModernButtonStyle}" 
+                                    Click="SaveSettings_Click" Margin="0,0,12,0"/>
+                            <Button x:Name="ResetSettingsBtn" Content="Reset to Defaults" Style="{StaticResource ModernButtonStyle}" 
+                                    Click="ResetSettings_Click" Background="#FFDC3545" BorderBrush="#FFDC3545"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Window>

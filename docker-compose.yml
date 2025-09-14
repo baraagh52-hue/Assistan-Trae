@@ -1,0 +1,94 @@
+version: '3.8'
+
+services:
+  personal-ai-assistant:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: personal-ai-assistant
+    restart: unless-stopped
+    
+    # Environment variables
+    environment:
+      - DOTNET_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      - PULSE_RUNTIME_PATH=/tmp/pulse
+      
+    # Volume mounts for persistence
+    volumes:
+      - ./config:/home/appuser/.personal-ai-assistant/config
+      - ./logs:/home/appuser/.personal-ai-assistant/logs
+      - ./models:/home/appuser/.personal-ai-assistant/models
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /run/user/1000/pulse:/tmp/pulse:ro
+      
+    # Audio device access
+    devices:
+      - /dev/snd:/dev/snd
+      
+    # Network configuration
+    ports:
+      - "8080:8080"
+      
+    # Security context
+    user: "1000:1000"
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '1.0'
+        reservations:
+          memory: 512M
+          cpus: '0.5'
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "pgrep", "-f", "PersonalAiAssistant"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+      
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        
+  # Optional: Kokoro TTS Server
+  kokoro-tts:
+    image: kokoro-tts:latest
+    container_name: kokoro-tts
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./kokoro-models:/app/models
+    environment:
+      - MODEL_PATH=/app/models
+    profiles:
+      - tts
+      
+  # Optional: ActivityWatch for productivity tracking
+  activitywatch:
+    image: activitywatch/activitywatch:latest
+    container_name: activitywatch
+    restart: unless-stopped
+    ports:
+      - "5600:5600"
+    volumes:
+      - activitywatch-data:/home/aw/.local/share/activitywatch
+    profiles:
+      - productivity
+      
+volumes:
+  activitywatch-data:
+    driver: local
+    
+networks:
+  default:
+    name: ai-assistant-network
+    driver: bridge
