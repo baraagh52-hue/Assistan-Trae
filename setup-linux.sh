@@ -73,21 +73,14 @@ install_dotnet() {
         fi
     fi
     
-    # Download and install .NET 8
-    if [[ "$IS_RASPBERRY_PI" == true ]]; then
-        # Raspberry Pi ARM64
-        print_status "Installing .NET 8 for Raspberry Pi (ARM64)..."
-        wget https://download.visualstudio.microsoft.com/download/pr/90486d8a-fb5a-41be-bd1d-c7b11b2b9ea6/b0e59c2ba2bd3ef0f592acbeae7ab27c/dotnet-sdk-8.0.100-linux-arm64.tar.gz -O dotnet-sdk.tar.gz
-    else
-        # Regular Linux x64
-        print_status "Installing .NET 8 for Linux (x64)..."
-        wget https://download.visualstudio.microsoft.com/download/pr/90486d8a-fb5a-41be-bd1d-c7b11b2b9ea6/b0e59c2ba2bd3ef0f592acbeae7ab27c/dotnet-sdk-8.0.100-linux-x64.tar.gz -O dotnet-sdk.tar.gz
-    fi
+    # Download and run the official .NET install script
+    print_status "Installing .NET 8 using official Microsoft installer..."
+    wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
+    chmod +x dotnet-install.sh
     
-    # Create dotnet directory
-    mkdir -p $HOME/.dotnet
-    tar zxf dotnet-sdk.tar.gz -C $HOME/.dotnet
-    rm dotnet-sdk.tar.gz
+    # Install .NET 8 SDK using the official script
+    ./dotnet-install.sh --channel 8.0 --install-dir $HOME/.dotnet
+    rm dotnet-install.sh
     
     # Add to PATH
     echo 'export DOTNET_ROOT=$HOME/.dotnet' >> ~/.bashrc
