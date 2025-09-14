@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PersonalAiAssistant")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3c207a097fc52a37cdf0ca11d9f40303f1c5f4f1")]
 [assembly: System.Reflection.AssemblyProductAttribute("PersonalAiAssistant")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Personal AI Assistant")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
