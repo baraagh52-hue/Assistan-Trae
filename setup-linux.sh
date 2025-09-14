@@ -287,14 +287,18 @@ build_application() {
         exit 1
     fi
     
+    # Ensure we use the correct .NET installation
+    export DOTNET_ROOT=$HOME/.dotnet
+    export PATH=$HOME/.dotnet:$PATH
+    
     # Restore packages
-    dotnet restore
+    $HOME/.dotnet/dotnet restore
     
     # Build for current platform
     if [[ "$IS_RASPBERRY_PI" == true ]]; then
-        dotnet build -c Release -r linux-arm64
+        $HOME/.dotnet/dotnet build -c Release -r linux-arm64
     else
-        dotnet build -c Release -r linux-x64
+        $HOME/.dotnet/dotnet build -c Release -r linux-x64
     fi
     
     print_success "Application built successfully"
@@ -316,16 +320,16 @@ create_startup_script() {
 
 cd "$PROJECT_DIR"
 export DOTNET_ROOT=\$HOME/.dotnet
-export PATH=\$PATH:\$HOME/.dotnet
+export PATH=\$HOME/.dotnet:\$PATH
 
 # Set audio environment
 export PULSE_RUNTIME_PATH=/run/user/\$(id -u)/pulse
 
 # Run the application
 if [[ "$IS_RASPBERRY_PI" == true ]]; then
-    dotnet run --configuration Release --runtime linux-arm64
+    \$HOME/.dotnet/dotnet run --configuration Release --runtime linux-arm64
 else
-    dotnet run --configuration Release --runtime linux-x64
+    \$HOME/.dotnet/dotnet run --configuration Release --runtime linux-x64
 fi
 EOF
     
