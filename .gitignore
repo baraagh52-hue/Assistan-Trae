@@ -1,0 +1,51 @@
+# Build results
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio
+.vs/
+
+# Configuration files with sensitive data
+appsettings.Development.json
+appsettings.Production.json
+*.config
+
+# Logs
+logs/
+*.log
+
+# Models (too large for git)
+Models/
+*.bin
+*.mdl
+
+# Dependencies
+node_modules/
+packages/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Docker
+.dockerignore
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Temporary files
+*.tmp
+*.temp
