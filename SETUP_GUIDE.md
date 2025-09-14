@@ -132,8 +132,20 @@ nano appsettings.json
 ```
 
 #### Step 4: Start the Assistant
+
+First, restart your terminal or reload your shell configuration:
+```bash
+source ~/.bashrc
+```
+
+Then run the assistant:
 ```bash
 personal-ai-assistant
+```
+
+Alternatively, you can run it directly from the project directory:
+```bash
+dotnet run --configuration Release
 ```
 
 ### Manual Linux Setup

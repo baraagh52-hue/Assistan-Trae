@@ -314,11 +314,14 @@ create_startup_script() {
     SCRIPT_PATH="$HOME/.local/bin/personal-ai-assistant"
     mkdir -p "$(dirname "$SCRIPT_PATH")"
     
+    # Get the absolute path of the current directory
+    PROJECT_DIR="$(pwd)"
+    
     cat > "$SCRIPT_PATH" << EOF
 #!/bin/bash
 # Personal AI Assistant Startup Script
 
-cd "$(pwd)"
+cd "$PROJECT_DIR"
 export DOTNET_ROOT=\$HOME/.dotnet
 export PATH=\$PATH:\$HOME/.dotnet
 
@@ -416,8 +419,10 @@ main() {
     echo
     print_status "Next steps:"
     echo "1. Configure your API keys in ./appsettings.json"
-    echo "2. Run the assistant with: personal-ai-assistant"
-    echo "3. Or start the systemd service: systemctl --user start personal-ai-assistant"
+    echo "2. Restart your terminal or run: source ~/.bashrc"
+    echo "3. Run the assistant with: personal-ai-assistant"
+    echo "   Or run directly: dotnet run --configuration Release"
+    echo "4. Or start the systemd service: systemctl --user start personal-ai-assistant"
     echo
     print_status "For troubleshooting, check logs in ~/.personal-ai-assistant/logs/"
     echo
