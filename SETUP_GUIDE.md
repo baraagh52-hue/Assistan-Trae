@@ -48,7 +48,7 @@ This comprehensive guide will walk you through setting up the Personal AI Assist
 ### Automated Setup (Recommended)
 
 #### Step 1: Download
-1. Go to the [Releases](https://github.com/yourusername/PersonalAiAssistant/releases) page
+1. Go to the [Releases](https://github.com/baraagh52-hue/Assistan-Trae/releases) page
 2. Download the latest `PersonalAiAssistant-Setup.zip`
 3. Extract to a folder (e.g., `C:\PersonalAiAssistant`)
 
@@ -81,8 +81,8 @@ If the automated setup fails or you prefer manual installation:
 
 #### Step 2: Clone Repository
 ```cmd
-git clone https://github.com/yourusername/PersonalAiAssistant.git
-cd PersonalAiAssistant
+git clone https://github.com/baraagh52-hue/Assistan-Trae.git
+cd Assistan-Trae
 ```
 
 #### Step 3: Build Application

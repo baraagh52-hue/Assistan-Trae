@@ -50,7 +50,7 @@ A comprehensive Windows desktop application that provides voice-activated AI ass
 ### Windows
 
 #### Quick Setup (Recommended)
-1. Download the latest release from the [Releases](https://github.com/yourusername/PersonalAiAssistant/releases) page
+1. Download the latest release from the [Releases](https://github.com/baraagh52-hue/Assistan-Trae/releases) page
 2. Run `setup.bat` as Administrator
 3. Follow the setup wizard
 4. Configure your API keys when prompted
@@ -59,8 +59,8 @@ A comprehensive Windows desktop application that provides voice-activated AI ass
 1. Install [.NET 8.0 Runtime](https://dotnet.microsoft.com/download/dotnet/8.0)
 2. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/PersonalAiAssistant.git
-   cd PersonalAiAssistant
+   git clone https://github.com/baraagh52-hue/Assistan-Trae.git
+   cd Assistan-Trae
    ```
 3. Run the setup script:
    ```cmd
@@ -77,8 +77,8 @@ A comprehensive Windows desktop application that provides voice-activated AI ass
 #### Automated Setup (Recommended)
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/PersonalAiAssistant.git
-   cd PersonalAiAssistant
+   git clone https://github.com/baraagh52-hue/Assistan-Trae.git
+   cd Assistan-Trae
    ```
 2. Run the Linux setup script:
    ```bash
@@ -97,8 +97,8 @@ A comprehensive Windows desktop application that provides voice-activated AI ass
 #### Docker Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/PersonalAiAssistant.git
-   cd PersonalAiAssistant
+   git clone https://github.com/baraagh52-hue/Assistan-Trae.git
+   cd Assistan-Trae
    ```
 2. Build and run with Docker Compose:
    ```bash
@@ -124,8 +124,8 @@ A comprehensive Windows desktop application that provides voice-activated AI ass
    ```
 3. Clone and build:
    ```bash
-   git clone https://github.com/yourusername/PersonalAiAssistant.git
-   cd PersonalAiAssistant
+   git clone https://github.com/baraagh52-hue/Assistan-Trae.git
+   cd Assistan-Trae
    dotnet restore
    dotnet build -c Release
    ```
@@ -297,8 +297,8 @@ PersonalAiAssistant/
 
 2. **Clone and Build**:
    ```bash
-   git clone https://github.com/yourusername/personal-ai-assistant.git
-   cd personal-ai-assistant
+   git clone https://github.com/baraagh52-hue/Assistan-Trae.git
+   cd Assistan-Trae
    dotnet restore
    dotnet build
    ```
