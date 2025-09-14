@@ -292,7 +292,7 @@ build_application() {
     export PATH=$HOME/.dotnet:$PATH
     
     # Restore packages for Linux target only
-    $HOME/.dotnet/dotnet restore -f net8.0
+    $HOME/.dotnet/dotnet restore --framework net8.0
     
     # Build for current platform
     if [[ "$IS_RASPBERRY_PI" == true ]]; then
