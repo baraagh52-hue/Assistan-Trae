@@ -11,11 +11,12 @@
     <PublishSingleFile>true</PublishSingleFile>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <ApplicationIcon Condition="'$(TargetFramework)' == 'net8.0-windows'">icon.ico</ApplicationIcon>
     <AssemblyTitle>Personal AI Assistant</AssemblyTitle>
     <AssemblyDescription>Offline Voice-Enabled Personal AI Assistant</AssemblyDescription>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
+    <EnableWindowsTargeting Condition="'$(TargetFramework)' == 'net8.0-windows'">true</EnableWindowsTargeting>
   </PropertyGroup>
 
   <ItemGroup>

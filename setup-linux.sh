@@ -296,9 +296,9 @@ build_application() {
     
     # Build for current platform
     if [[ "$IS_RASPBERRY_PI" == true ]]; then
-        $HOME/.dotnet/dotnet build -c Release -f net8.0 -r linux-arm64
+        $HOME/.dotnet/dotnet build -c Release -f net8.0 -r linux-arm64 --self-contained false
     else
-        $HOME/.dotnet/dotnet build -c Release -f net8.0 -r linux-x64
+        $HOME/.dotnet/dotnet build -c Release -f net8.0 -r linux-x64 --self-contained false
     fi
     
     print_success "Application built successfully"
@@ -326,11 +326,11 @@ export PATH=\$HOME/.dotnet:\$PATH
 export PULSE_RUNTIME_PATH=/run/user/\$(id -u)/pulse
 
 # Run the application
-if [[ "$IS_RASPBERRY_PI" == true ]]; then
-    \$HOME/.dotnet/dotnet run --configuration Release --framework net8.0 --runtime linux-arm64
-else
-    \$HOME/.dotnet/dotnet run --configuration Release --framework net8.0 --runtime linux-x64
-fi
+    if [[ "$IS_RASPBERRY_PI" == true ]]; then
+        \$HOME/.dotnet/dotnet run --configuration Release --framework net8.0 --runtime linux-arm64 --no-build
+    else
+        \$HOME/.dotnet/dotnet run --configuration Release --framework net8.0 --runtime linux-x64 --no-build
+    fi
 EOF
     
     chmod +x "$SCRIPT_PATH"
