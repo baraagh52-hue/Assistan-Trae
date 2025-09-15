@@ -110,7 +110,9 @@ install_system_dependencies() {
             python3-pip \
             ffmpeg \
             pulseaudio \
-            alsa-utils
+            alsa-utils \
+            alsa-tools \
+            alsa-base
             
         # Install additional packages for Raspberry Pi
         if [[ "$IS_RASPBERRY_PI" == true ]]; then
@@ -296,9 +298,9 @@ build_application() {
     
     # Build for current platform
     if [[ "$IS_RASPBERRY_PI" == true ]]; then
-        $HOME/.dotnet/dotnet build -c Release -f net8.0 -r linux-arm64 --self-contained false
+        $HOME/.dotnet/dotnet build -c Release -f net8.0 -r linux-arm64 --self-contained false -p:DefineConstants=LINUX_BUILD
     else
-        $HOME/.dotnet/dotnet build -c Release -f net8.0 -r linux-x64 --self-contained false
+        $HOME/.dotnet/dotnet build -c Release -f net8.0 -r linux-x64 --self-contained false -p:DefineConstants=LINUX_BUILD
     fi
     
     print_success "Application built successfully"

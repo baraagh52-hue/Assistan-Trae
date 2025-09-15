@@ -28,12 +28,15 @@
     <!-- JSON Handling -->
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     
-    <!-- Audio Processing -->
-    <PackageReference Include="NAudio" Version="2.2.1" />
+    <!-- Audio Processing (Windows only) -->
+    <PackageReference Include="NAudio" Version="2.2.1" Condition="'$(TargetFramework)' == 'net8.0-windows'" />
     
     <!-- Voice Recognition Libraries -->
-    <PackageReference Include="Porcupine" Version="3.0.2" />
+    <PackageReference Include="Porcupine" Version="3.0.2" Condition="'$(TargetFramework)' == 'net8.0-windows'" />
     <PackageReference Include="Vosk" Version="0.3.38" />
+    
+    <!-- Linux Audio Dependencies -->
+    <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
     
     <!-- HTTP Client for API calls -->
     <PackageReference Include="System.Net.Http.Json" Version="8.0.0" />

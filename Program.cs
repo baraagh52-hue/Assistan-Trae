@@ -93,9 +93,17 @@ namespace PersonalAiAssistant
                     services.AddSingleton<IErrorHandlingService, ErrorHandlingService>();
                     services.AddSingleton<IConfigurationManager, ConfigurationManager>();
                     
-                    // Register AI services
-                    services.AddSingleton<IWakeWordService, WakeWordService>();
-                    services.AddSingleton<ISpeechToTextService, SpeechToTextService>();
+                    // Register AI services - platform specific
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    {
+                        services.AddSingleton<IWakeWordService, WakeWordService>();
+                        services.AddSingleton<ISpeechToTextService, SpeechToTextService>();
+                    }
+                    else
+                    {
+                        services.AddSingleton<IWakeWordService, LinuxWakeWordService>();
+                        services.AddSingleton<ISpeechToTextService, LinuxSTTService>();
+                    }
                     services.AddSingleton<ITextToSpeechService, TextToSpeechService>();
                     services.AddSingleton<ILLMService, LLMService>();
                     
